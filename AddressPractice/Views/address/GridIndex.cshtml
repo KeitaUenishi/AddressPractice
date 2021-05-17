@@ -1,0 +1,193 @@
+﻿
+@model AddressPractice.ViewModel.AddressViewModel
+
+@{
+    ViewBag.Title = "GridIndex";
+
+    //var grid = new WebGrid(source: Model);
+}
+<script runat="server"></script>
+<head runat="server">
+    <meta charset="utf-8" />
+    <style type="text/css">
+
+        .grid {
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        .head {
+            background-color: #E8E8E8;
+            font-weight: bold;
+            color: #FFF
+        }
+
+        .grid th, .grid td {
+            border: 1px solid #C0C0C0;
+            padding: 5px;
+            column-width: 200px
+        }
+
+        .grid th {
+            text-align: center;
+        }
+
+        .alt {
+            background-color: #E8E8E8;
+            color: #000;
+        }
+
+        .product {
+            width: 200px;
+            font-weight: bold;
+        }
+
+        .ColumnWid1 {
+            column-width: 10px
+        }
+
+        .ColumnWid2 {
+            column-width: 30px
+        }
+
+        .ColumnWid3 {
+            column-width: 80px
+        }
+
+        .ColumnWid4 {
+            column-width: 150px
+        }
+
+        .ColumnWid5 {
+            column-width: 180px
+        }
+    </style>
+    @section scripts{
+        <script type="text/javascript">
+            //<![CDATA[
+
+            // ［Uncheck All］ボタンクリックで、すべての TextBox,
+            // CheckBox のチェックを外す。
+            $(document).ready(function () {
+                $('.clearForm').bind('click', function () {
+                    $(this.form).find("textarea, :text, select").val("").end();
+                    $(this.form).find('input[type="number"]').val("");
+                    $(this.form).find('input[type="date"]').val("");
+                });
+            });
+
+                             //]]>
+        </script>
+    }
+</head>
+<body>
+    <h2>GridIndex</h2>
+
+
+
+    @using (Html.BeginForm("GridIndex", "address", FormMethod.Post,
+      new { @class = "form-inline" }))
+    {
+        <label>氏名：</label>
+        @Html.EditorFor(model => model.SearchCondition.name, new { htmlAttributes = new { @class = "form-control" } })
+        <label>住所：</label>
+        @Html.EditorFor(model => model.SearchCondition.homeAddress, new { htmlAttributes = new { @class = "form-control" } })
+        <label>From生年月日</label>
+        @Html.EditorFor(model => model.SearchCondition.fromBirthDay, new { htmlAttributes = new { @class = "form-control" } })
+        <label>To生年月日</label>
+        @Html.EditorFor(model => model.SearchCondition.toBirthDay, new { htmlAttributes = new { @class = "form-control" } })
+        <input type="submit" value="検索" class="btn btn-info" />
+        <input type="button" value="条件クリア" class="clearForm btn btn-default" style="width: 120px">
+        <input type="reset" value="クリア" />
+    }
+    <br />
+
+    @*<div class="row">
+        <div class="col-lg-12">-->
+
+            @*formでくくるのを忘れずに*@
+    @*<!--@using (Html.BeginForm())
+        {
+
+            @grid.GetHtml(tableStyle: "grid",
+                            headerStyle: "head",
+                            footerStyle: "table-pager",
+                            columns: grid.Columns
+                            (
+                                    grid.Column("name", "名前", style: "ColumnWid3"),
+                                    grid.Column("furigana", "フリガナ", style: "ColumnWid3"),
+                                    grid.Column("gender", "性別", style: "ColumnWid1"),
+                                    grid.Column("birthDay", "生年月日", style: "ColumnWid3", format: (item) => string.Format("{0:yyyy/MM/dd}", item.birthDay)),
+                                    grid.Column("bloodType", "血液型", style: "ColumnWid1"),
+                                    //grid.Column("homePhone", "固定電話",style: "ColumnWid1"),
+                                    grid.Column("cellPhone", "携帯電話", style: "ColumnWid3"),
+                                    grid.Column("mailAddress", "メールアドレス", style: "ColumnWid4"),
+                                    grid.Column("postalCode", "郵便番号", style: "ColumnWid3"),
+                                    grid.Column("homeAddress", "住所", style: "ColumnWid5"),
+                                    //grid.Column("homeFurigana", "フリガナ",style: "ColumnWid1")
+                                    grid.Column("homeAddress", "住所", format: (item) => @Html.ActionLink("map", "Details", new { id = item.id }))-->←あと、この行を追加*@
+    <!--)
+    );
+            }
+        </div>
+    </div>-->
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    名前
+                </th>
+                <th>
+                    フリガナ
+                </th>
+                <th>
+                    性別
+                </th>
+                <th>
+                    生年月日
+                </th>
+                <th>
+                    血液型
+                </th>
+                <th>
+                    携帯電話
+                </th>
+                <th>
+                    メールアドレス
+                </th>
+                <th>
+                    郵便番号
+                </th>
+                <th>
+                    住所
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model.AddresMasters)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.name</td>
+                    <td>@item.furigana</td>
+                    <td>@item.gender</td>
+                    <td>@item.birthDay.ToString()</td>
+                    <td>@item.bloodType</td>
+                    <td>@item.cellPhone</td>
+                    <td>@item.mailAddress</td>
+                    <td>@item.postalCode</td>
+                    <td>@item.homeAddress</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</body>

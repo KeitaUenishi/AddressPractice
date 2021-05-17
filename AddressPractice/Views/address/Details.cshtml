@@ -1,0 +1,141 @@
+﻿@model AddressPractice.Models.ADDRESS_MASTER
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ADDRESS_MASTER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.furigana)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.furigana)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bloodType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bloodType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.birthDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.birthDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.homePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.homePhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cellPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.postalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.postalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.homeAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.homeAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.homeFurigana)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.homeFurigana)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@* ↓自分のAPIキーを入れる *@
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBqMgkqGg6HVBADC1EbdyZKresrJlqpfOU&libraries=places,geometry&sensor=false"></script>
+
+
+<body onload="initialize()">
+    <table style="width:500px;border:0;">
+        <tr><td>緯度</td><td id="id_ido"></td></tr>
+        <tr><td>経度</td><td id="id_keido"></td></tr>
+    </table>
+
+    <input id="address" type="text" value=@Model.homeAddress.ToString()>
+    <input type="button" value="GetGeocode" onclick="codeAddress()">
+    <div id="map_canvas" style="width:700px; height:500px"></div>
+
+    <br />
+    <br />
+
+    @Html.Label("逆ジオコード")
+    <table style="width:500px;border:0;">
+        <tr><td>緯度</td><td><input id="id_ido_rev" type="text" value=35.681167></td></tr>
+        <tr><td>経度</td><td><input id="id_keido_rev" type="text" value=139.767052></td></tr>
+        <tr><td>住所</td><td id="id_Address_rev"></td></tr>
+
+    </table>
+
+    <input type="button" value="Reverse Geocode" onclick="codeAddress_rev()">
+
+</body>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id })
+    @Html.ActionLink("Back to List", "Index")
+</p>
